@@ -1,0 +1,8 @@
+show-icons=true
+prompt=Run:
+width=500
+height=400
+location=center
+hide-scroll=true
+allow-markup=true
+term=wezterm

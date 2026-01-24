@@ -1,0 +1,67 @@
+* {
+  font-family: JetBrainsMono Nerd Font, sans-serif;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+window#waybar {
+    background: rgba(0, 0, 0, 0.0); /* black, 50% transparent */
+}
+
+
+/* Common style for all modules with consistent spacing (except workspaces buttons) */
+#network,
+#custom-pomodoro,
+#cpu,
+#memory,
+#clock,
+#pulseaudio {
+  padding: 0 10px; /* Keep horizontal padding as before */
+  background-color: #333;
+  border: 1px solid #444;
+  border-radius: 6px;
+  margin: 0 4px; /* Space between modules */
+  color: #ffffff;
+}
+
+#custom-pomodoro {
+  
+}
+
+/* Workspaces: style each button separately */
+#workspaces {
+  padding: 0 6px;            /* Slight inner spacing for the container */
+  margin: 0 4px;             /* Keep same spacing from neighbours */
+  background: transparent;   /* Don't box the whole group */
+  border: none;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  margin: 0 3px;             /* Space between buttons */
+  background-color: #333;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #ffffff;
+}
+
+#workspaces button.active {
+  background-color: #555;
+  border-color: #666;
+}
+
+#workspaces button.urgent {
+  background-color: #a54242;
+  border-color: #cc6666;
+  color: #ffffff;
+}
+
+#workspaces button:hover {
+  background-color: #444;
+  border-color: #555;
+}
+
+#pulseaudio.muted {
+  color: #ff4444;
+}
+
