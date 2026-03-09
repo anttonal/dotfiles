@@ -44,6 +44,7 @@
     "headphone": "",
     "default": ["", "", ""]
   },
+
   "scroll-step": 2,
   "on-click": "pamixer -t",
   "on-click-right": "pactl set-default-sink $((s=$(pactl list short sinks | sed -e 's:^[0-9]\\+\\s\\+::' | grep -oP '^\\S+'); echo \"$s\"; echo \"$s\") | grep -F $(pactl get-default-sink) -m1 -A1 | tail -1)",
