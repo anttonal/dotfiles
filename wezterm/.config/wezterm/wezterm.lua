@@ -1,16 +1,16 @@
 local wezterm = require("wezterm")
 local config = {}
 
-config.enable_wayland = true
+config.enable_wayland = false
 config.front_end = "WebGpu"
 
 -- Fonts
 config.font = wezterm.font_with_fallback({
-  "Hack Nerd Font",
-  "Noto Color Emoji",
-  "Monospace",
+	"Hack Nerd Font",
+	"Noto Color Emoji",
+	"Monospace",
 })
-config.font_size = 12.0
+config.font_size = 10.0
 
 -- Colors
 config.color_scheme = "Gruvbox Dark (Gogh)"
