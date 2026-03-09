@@ -8,7 +8,7 @@
   "custom/pomodoro": {
 	  "format": "{}",
 	  "return-type": "json",
-  	"exec": "waybar-module-pomodoro -w 50 -s 10 -l 30  --autob --autow",
+  	"exec": "/home/ant/.local/bin/waybar-module-pomodoro -w 50 -s 10 -l 30  --autob --autow",
 	  "on-click": "waybar-module-pomodoro toggle",
 	  "on-click-right": "waybar-module-pomodoro reset",
   },
