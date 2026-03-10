@@ -12,6 +12,16 @@ return {
         html = { 'htmlhint' },
       }
 
+      local function available_linters(names)
+        return vim.tbl_filter(function(name)
+          local linter = lint.linters[name]
+          if type(linter) == 'function' then
+            linter = linter()
+          end
+          return linter and vim.fn.executable(linter.cmd) == 1
+        end, names or {})
+      end
+
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
       -- lint.linters_by_ft = lint.linters_by_ft or {}
@@ -53,7 +63,14 @@ return {
           -- Only run the linter in buffers that you can modify in order to
           -- avoid superfluous noise, notably within the handy LSP pop-ups that
           -- describe the hovered symbol using Markdown.
-          if vim.bo.modifiable then lint.try_lint() end
+          if not vim.bo.modifiable then
+            return
+          end
+
+          local names = available_linters(lint._resolve_linter_by_ft(vim.bo.filetype))
+          if #names > 0 then
+            lint.try_lint(names)
+          end
         end,
       })
     end,
