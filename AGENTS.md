@@ -29,6 +29,8 @@ Use these defaults for work under `/home/ant` unless a newer user instruction ov
 - Use existing Git name/email configuration.
 - Prefer concise commit messages.
 - Common paths: `/home/ant/dotfiles`, `/home/ant/scripts`, `/home/ant/code`
+- Daily notes path: `/home/ant/obsidian/300 Daily Notes`
+- Daily note script path: `/home/ant/scripts/open-daily-note`
 - New notes default location: `/home/ant/obsidian/000 Drafts`
 - Ask before implementing changes when reasonable.
 - Run tests automatically when applicable.
