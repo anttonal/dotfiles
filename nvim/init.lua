@@ -85,6 +85,15 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Explorer' })
+vim.keymap.set('n', '<leader>tt', function()
+  local line = vim.api.nvim_get_current_line()
+  if line:match '^%s*[-*] %[%s%]' then
+    line = line:gsub('%[(%s)%]', '[x]', 1)
+  elseif line:match '^%s*[-*] %[x%]' then
+    line = line:gsub('%[x%]', '[ ]', 1)
+  end
+  vim.api.nvim_set_current_line(line)
+end, { desc = 'Toggle markdown checkbox' })
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {
@@ -518,6 +527,7 @@ require('lazy').setup({
       ---@type table<string, vim.lsp.Config>
       local servers = {
         html = {},
+        marksman = {},
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
@@ -720,6 +730,20 @@ require('lazy').setup({
 
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
+    },
+  },
+
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    ft = { 'markdown', 'Avante' },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons',
+    },
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {
+      completions = { blink = { enabled = true } },
     },
   },
 
