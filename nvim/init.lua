@@ -3,6 +3,7 @@
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.g.obsidian_vault = '/home/ant/obsidian'
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -78,6 +79,129 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+local function escape_rg_pattern(text)
+  return text:gsub('([%(%)%.%%%+%-%*%?%[%]%^%$%{%}%|])', '\\%1')
+end
+
+local function current_note_id()
+  local name = vim.fn.expand '%:t:r'
+  if name == '' then return nil end
+  return name
+end
+
+local function find_wikilink_at_cursor()
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+  local start_col, end_col, inner = line:find('%[%[([^%]]+)%]%]')
+
+  while start_col do
+    if col >= start_col and col <= end_col then
+      return inner
+    end
+    start_col, end_col, inner = line:find('%[%[([^%]]+)%]%]', end_col + 1)
+  end
+end
+
+local function resolve_note_path(note_id)
+  local matches = vim.fn.systemlist({
+    'rg',
+    '--files',
+    '--glob',
+    '*.md',
+    vim.g.obsidian_vault,
+  })
+
+  local exact = {}
+  for _, path in ipairs(matches) do
+    if vim.fn.fnamemodify(path, ':t:r') == note_id then
+      exact[#exact + 1] = path
+    end
+  end
+
+  if #exact == 0 then return nil end
+  if #exact == 1 then return exact[1] end
+  return vim.fn.fnamemodify(exact[1], ':p')
+end
+
+local function follow_note_link()
+  local inner = find_wikilink_at_cursor()
+  if not inner then
+    vim.cmd.normal { 'gf', bang = true }
+    return
+  end
+
+  local note_id = inner:match('^[^|#]+')
+  if not note_id or note_id == '' then
+    vim.notify('Invalid wiki link', vim.log.levels.WARN)
+    return
+  end
+
+  local target = resolve_note_path(note_id)
+  if not target then
+    vim.notify('Note not found: ' .. note_id, vim.log.levels.WARN)
+    return
+  end
+
+  vim.cmd.edit(vim.fn.fnameescape(target))
+end
+
+local function show_backlinks()
+  local note_id = current_note_id()
+  if not note_id then
+    vim.notify('No note id for current buffer', vim.log.levels.WARN)
+    return
+  end
+
+  local pattern = '!?\\[\\[' .. escape_rg_pattern(note_id) .. '([#|][^]]*)?\\]\\]'
+  local results = vim.fn.systemlist({
+    'rg',
+    '--vimgrep',
+    '--smart-case',
+    '--glob',
+    '*.md',
+    pattern,
+    vim.g.obsidian_vault,
+  })
+
+  if vim.v.shell_error ~= 0 and #results == 0 then
+    vim.notify('No backlinks found for ' .. note_id, vim.log.levels.INFO)
+    return
+  end
+
+  local qf = {}
+  for _, line in ipairs(results) do
+    local filename, lnum, col, text = line:match('^(.-):(%d+):(%d+):(.*)$')
+    if filename and filename ~= vim.api.nvim_buf_get_name(0) then
+      qf[#qf + 1] = {
+        filename = filename,
+        lnum = tonumber(lnum),
+        col = tonumber(col),
+        text = text,
+      }
+    end
+  end
+
+  if vim.tbl_isempty(qf) then
+    vim.notify('No backlinks found for ' .. note_id, vim.log.levels.INFO)
+    return
+  end
+
+  vim.fn.setqflist({}, ' ', {
+    title = 'Backlinks: ' .. note_id,
+    items = qf,
+  })
+
+  local ok, builtin = pcall(require, 'telescope.builtin')
+  if ok then
+    builtin.quickfix()
+  else
+    vim.cmd.copen()
+  end
+end
+
+vim.api.nvim_create_user_command('Backlinks', show_backlinks, {})
+vim.api.nvim_create_user_command('FollowNoteLink', follow_note_link, {})
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -85,6 +209,8 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Explorer' })
+vim.keymap.set('n', 'gf', follow_note_link, { desc = 'Follow file or wiki link' })
+vim.keymap.set('n', '<leader>nb', show_backlinks, { desc = '[N]ote [B]acklinks' })
 vim.keymap.set('n', '<leader>tt', function()
   local line = vim.api.nvim_get_current_line()
   if line:match '^%s*[-*] %[%s%]' then
