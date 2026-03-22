@@ -28,10 +28,13 @@ Use these defaults for work under `/home/ant` unless a newer user instruction ov
 - Keep changes minimal.
 - Use existing Git name/email configuration.
 - Prefer concise commit messages.
+- Commit messages must describe the feature or change, and be concise.
 - Common paths: `/home/ant/dotfiles`, `/home/ant/scripts`, `/home/ant/code`
 - Daily notes path: `/home/ant/obsidian/300 Daily Notes`
 - Daily note script path: `/home/ant/scripts/open-daily-note`
 - New notes default location: `/home/ant/obsidian/000 Drafts`
+- Main todo note: `/home/ant/obsidian/400 Todo/TODO.md`
+- Shopping list note: `/home/ant/obsidian/400 Todo/Shopping List.md`
 - Ask before implementing changes when reasonable.
 - Run tests automatically when applicable.
 - Change aggressiveness: low.
