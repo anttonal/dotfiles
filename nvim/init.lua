@@ -210,16 +210,6 @@ vim.api.nvim_create_user_command('FollowNoteLink', follow_note_link, {})
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Explorer' })
 vim.keymap.set('n', 'gf', follow_note_link, { desc = 'Follow file or wiki link' })
-vim.keymap.set('n', '<leader>nb', show_backlinks, { desc = '[N]ote [B]acklinks' })
-vim.keymap.set('n', '<leader>tt', function()
-  local line = vim.api.nvim_get_current_line()
-  if line:match '^%s*[-*] %[%s%]' then
-    line = line:gsub('%[(%s)%]', '[x]', 1)
-  elseif line:match '^%s*[-*] %[x%]' then
-    line = line:gsub('%[x%]', '[ ]', 1)
-  end
-  vim.api.nvim_set_current_line(line)
-end, { desc = 'Toggle markdown checkbox' })
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {
