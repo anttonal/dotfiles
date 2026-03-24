@@ -2,16 +2,8 @@
   "layer": "top",
   "position": "top",
   "modules-left": ["hyprland/workspaces"],
-  "modules-center": ["clock", "custom/pomodoro"],
+  "modules-center": ["clock"],
   "modules-right": ["pulseaudio", "network", "cpu", "memory"],
-
-  "custom/pomodoro": {
-	  "format": "{}",
-	  "return-type": "json",
-  	"exec": "waybar-module-pomodoro -w 50 -s 10 -l 30  --autob --autow",
-	  "on-click": "waybar-module-pomodoro toggle",
-	  "on-click-right": "waybar-module-pomodoro reset",
-  },
 
   "network": {
     "format": "{icon}",
