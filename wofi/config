@@ -5,4 +5,4 @@ height=300
 location=center
 hide-scroll=true
 allow-markup=true
-term=wezterm
+term=ghostty

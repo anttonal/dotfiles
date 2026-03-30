@@ -42,12 +42,12 @@ border-color=#f38ba8
 background-color=#3b1f2b
 default-timeout=5000
 
-[app-name=wezterm urgency=critical]
+[app-name=ghostty urgency=critical]
 border-color=#89b4fa
 background-color=#1e1e2e
 default-timeout=5000
 
-[app-name=wezterm urgency=critical]
+[app-name=ghostty urgency=critical]
 border-color=#89b4fa
 background-color=#1e1e2e
 default-timeout=5000

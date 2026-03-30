@@ -208,7 +208,8 @@ vim.api.nvim_create_user_command('FollowNoteLink', follow_note_link, {})
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Explorer' })
+vim.keymap.set('n', '<leader>e', function() Snacks.explorer() end, { desc = 'Explorer' })
+vim.keymap.set('n', '\\', function() Snacks.explorer.reveal() end, { desc = 'Explorer reveal' })
 vim.keymap.set('n', 'gf', follow_note_link, { desc = 'Follow file or wiki link' })
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
@@ -281,6 +282,8 @@ end
 ---@type vim.Option
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
+
+vim.schedule(function() vim.opt.runtimepath:append(vim.fn.stdpath 'data' .. '/site/') end)
 
 -- [[ Configure and install plugins ]]
 --
@@ -864,20 +867,10 @@ require('lazy').setup({
   },
 
   {
-    'ellisonleao/gruvbox.nvim',
+    'Mofiqul/dracula.nvim',
     priority = 1000,
     config = function()
-      require('gruvbox').setup {
-        italic = {
-          strings = false,
-          comments = false,
-          operators = false,
-          folds = false,
-          emphasis = false,
-        },
-      }
-
-      vim.cmd.colorscheme 'gruvbox'
+      vim.cmd.colorscheme 'dracula'
     end,
   }, -- Highlight todo, notes, etc in comments
 

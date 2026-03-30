@@ -18,7 +18,7 @@ Use these defaults for work under `/home/ant` unless a newer user instruction ov
 - Neovim config path: `~/.config/nvim` -> `/home/ant/dotfiles/nvim`
 - Shell: Bash
 - Package manager: `pacman`
-- Terminal: `wezterm`
+- Terminal: `ghostty`
 - Browser: `brave`
 
 ## Working Defaults
