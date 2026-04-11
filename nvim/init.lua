@@ -79,9 +79,7 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
-local function escape_rg_pattern(text)
-  return text:gsub('([%(%)%.%%%+%-%*%?%[%]%^%$%{%}%|])', '\\%1')
-end
+local function escape_rg_pattern(text) return text:gsub('([%(%)%.%%%+%-%*%?%[%]%^%$%{%}%|])', '\\%1') end
 
 local function current_note_id()
   local name = vim.fn.expand '%:t:r'
@@ -92,30 +90,26 @@ end
 local function find_wikilink_at_cursor()
   local line = vim.api.nvim_get_current_line()
   local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-  local start_col, end_col, inner = line:find('%[%[([^%]]+)%]%]')
+  local start_col, end_col, inner = line:find '%[%[([^%]]+)%]%]'
 
   while start_col do
-    if col >= start_col and col <= end_col then
-      return inner
-    end
+    if col >= start_col and col <= end_col then return inner end
     start_col, end_col, inner = line:find('%[%[([^%]]+)%]%]', end_col + 1)
   end
 end
 
 local function resolve_note_path(note_id)
-  local matches = vim.fn.systemlist({
+  local matches = vim.fn.systemlist {
     'rg',
     '--files',
     '--glob',
     '*.md',
     vim.g.obsidian_vault,
-  })
+  }
 
   local exact = {}
   for _, path in ipairs(matches) do
-    if vim.fn.fnamemodify(path, ':t:r') == note_id then
-      exact[#exact + 1] = path
-    end
+    if vim.fn.fnamemodify(path, ':t:r') == note_id then exact[#exact + 1] = path end
   end
 
   if #exact == 0 then return nil end
@@ -130,7 +124,7 @@ local function follow_note_link()
     return
   end
 
-  local note_id = inner:match('^[^|#]+')
+  local note_id = inner:match '^[^|#]+'
   if not note_id or note_id == '' then
     vim.notify('Invalid wiki link', vim.log.levels.WARN)
     return
@@ -153,7 +147,7 @@ local function show_backlinks()
   end
 
   local pattern = '!?\\[\\[' .. escape_rg_pattern(note_id) .. '([#|][^]]*)?\\]\\]'
-  local results = vim.fn.systemlist({
+  local results = vim.fn.systemlist {
     'rg',
     '--vimgrep',
     '--smart-case',
@@ -161,7 +155,7 @@ local function show_backlinks()
     '*.md',
     pattern,
     vim.g.obsidian_vault,
-  })
+  }
 
   if vim.v.shell_error ~= 0 and #results == 0 then
     vim.notify('No backlinks found for ' .. note_id, vim.log.levels.INFO)
@@ -170,7 +164,7 @@ local function show_backlinks()
 
   local qf = {}
   for _, line in ipairs(results) do
-    local filename, lnum, col, text = line:match('^(.-):(%d+):(%d+):(.*)$')
+    local filename, lnum, col, text = line:match '^(.-):(%d+):(%d+):(.*)$'
     if filename and filename ~= vim.api.nvim_buf_get_name(0) then
       qf[#qf + 1] = {
         filename = filename,
@@ -649,7 +643,7 @@ require('lazy').setup({
         marksman = {},
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -869,9 +863,7 @@ require('lazy').setup({
   {
     'Mofiqul/dracula.nvim',
     priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'dracula'
-    end,
+    config = function() vim.cmd.colorscheme 'dracula' end,
   }, -- Highlight todo, notes, etc in comments
 
   {

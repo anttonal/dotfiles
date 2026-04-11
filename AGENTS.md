@@ -12,13 +12,17 @@ Use these defaults for work under `/home/ant` unless a newer user instruction ov
 ## System Context
 - Distro: Arch Linux
 - Display server: Wayland
-- Compositor: Hyprland
-- Editor: Neovim
+- Compositor: Hyprland (config path: `~/dotfiles/hypr/hyprland.conf`)
+- Editor: Neovim (config path: `~/dotfiles/nvim/init.lua`)
 - Neovim setup: mostly stock `kickstart.nvim`
-- Neovim config path: `~/.config/nvim` -> `/home/ant/dotfiles/nvim`
-- Shell: Bash
+- Shell: Bash (config path: `~/dotfiles/.bashrc`)
 - Package manager: `pacman`
-- Terminal: `ghostty`
+- Terminal: `ghostty` (config path: `~/dotfiles/ghostty/config.ghostty`)
+- Launcher: `wofi` (config path: `~/dotfiles/wofi/config`)
+- Status bar: `waybar` (config path: `~/dotfiles/waybar/config`)
+- Notifications: `mako` (config path: `~/dotfiles/mako/config`)
+- Wallpaper: `hyprpaper` (config path: `~/dotfiles/hypr/hyprpaper.conf`)
+- File manager: Thunar (config path: `~/dotfiles/Thunar/uca.xml`)
 - Browser: `brave`
 
 ## Working Defaults

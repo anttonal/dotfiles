@@ -5,6 +5,13 @@ return {
     lazy = false,
     opts = {
       explorer = { enabled = true },
+      picker = {
+        sources = {
+          explorer = {
+            ignored = true,
+          },
+        },
+      },
       image = { enabled = true },
       input = { enabled = true },
       notifier = { enabled = true },
