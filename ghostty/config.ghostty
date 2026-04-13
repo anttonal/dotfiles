@@ -1,22 +1,32 @@
+# Appearance
 theme = Dracula
 font-family = Hack Nerd Font
 font-size = 12
+cursor-style-blink = false
+
+# Shell
 shell-integration = detect
 shell-integration-features = sudo,ssh-terminfo,ssh-env
-cursor-style-blink = false
+
+# Behavior
+confirm-close-surface = false
+
+# Keybinds
+keybind = ctrl+enter=unbind
 keybind = shift+page_up=scroll_page_lines:-10
 keybind = shift+page_down=scroll_page_lines:10
+keybind = super+ctrl+comma=reload_config
+
+## Splits
 keybind = super+ctrl+h=goto_split:left
 keybind = super+ctrl+j=goto_split:down
 keybind = super+ctrl+k=goto_split:up
 keybind = super+ctrl+l=goto_split:right
-keybind = ctrl+shift+o=unbind
 keybind = super+ctrl+q=new_split:right
+keybind = super+ctrl+d=new_split:down
 keybind = super+ctrl+f=toggle_split_zoom
 keybind = super+ctrl+arrow_up=resize_split:up,20
 keybind = super+ctrl+arrow_down=resize_split:down,20
 keybind = super+ctrl+arrow_left=resize_split:left,20
 keybind = super+ctrl+arrow_right=resize_split:right,20
 keybind = super+ctrl+c=close_surface
-keybind = super+ctrl+comma=reload_config
-confirm-close-surface = false
