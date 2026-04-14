@@ -7,8 +7,8 @@
 
   "network": {
     "format": "{icon}",
-    "format-wifi": " ",
-    "format-ethernet": " ",
+    "format-wifi": " ",
+    "format-ethernet": " ",
     "format-disconnected": "⚠ Disconnected",
     "tooltip": true
   },
@@ -30,11 +30,11 @@
 
  "pulseaudio": {
   "format": "{icon} {volume}%",
-  "format-bluetooth": "{icon}  {volume}%",
-  "format-muted": " Muted",
+  "format-bluetooth": "{icon}  {volume}%",
+  "format-muted": " Muted",
   "format-icons": {
-    "headphone": "",
-    "default": ["", "", ""]
+    "headphone": "",
+    "default": ["", "", ""]
   },
 
   "scroll-step": 2,
@@ -49,4 +49,3 @@
     "tooltip": false
   }
 }
-

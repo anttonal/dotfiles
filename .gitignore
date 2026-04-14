@@ -2,3 +2,5 @@ nohup.out
 *.log
 *.tmp
 *.swp
+hypr/monitors.conf
+waybar/config
