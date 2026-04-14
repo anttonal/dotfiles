@@ -11,6 +11,7 @@ window#waybar {
 
 /* Common style for all modules with consistent spacing (except workspaces buttons) */
 #network,
+#battery,
 #cpu,
 #memory,
 #clock,
@@ -60,3 +61,14 @@ window#waybar {
   color: #ff4444;
 }
 
+#battery.charging {
+  color: #44ff44;
+}
+
+#battery.warning {
+  color: #ffaa00;
+}
+
+#battery.critical {
+  color: #ff4444;
+}

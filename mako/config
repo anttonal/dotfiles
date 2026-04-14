@@ -49,8 +49,3 @@ output=
 border-color=#89b4fa
 background-color=#1e1e2e
 default-timeout=5000
-
-[app-name=ghostty urgency=critical]
-border-color=#89b4fa
-background-color=#1e1e2e
-default-timeout=5000
