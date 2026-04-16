@@ -3,4 +3,5 @@ nohup.out
 *.tmp
 *.swp
 hypr/monitors.conf
-waybar/config
+CLAUDE.md
+bashrc

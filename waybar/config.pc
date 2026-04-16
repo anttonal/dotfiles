@@ -6,7 +6,7 @@
   "modules-right": ["pulseaudio", "network", "cpu", "memory"],
 
   "network": {
-    "format": "{icon}",
+    "format": "{icon} ",
     "format-wifi": "󰖩",
     "format-ethernet": "󰈀",
     "format-disconnected": "⚠ Disconnected",
