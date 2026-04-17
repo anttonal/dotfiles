@@ -5,3 +5,5 @@ nohup.out
 hypr/monitors.conf
 CLAUDE.md
 bashrc
+waybar/config
+Thunar/accels.scm
