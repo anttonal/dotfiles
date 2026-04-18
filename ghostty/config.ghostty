@@ -1,15 +1,19 @@
 # Appearance
-theme = Dracula
 font-family = Hack Nerd Font
 font-size = 12
-cursor-style-blink = false
 
 # Shell
 shell-integration = detect
 shell-integration-features = sudo,ssh-terminfo,ssh-env
 
+# Look and Feel
+theme = Dracula
+mouse-hide-while-typing = true
+cursor-style-blink = false
+
 # Behavior
 confirm-close-surface = false
+clipboard-paste-protection = false
 
 # Keybinds
 keybind = ctrl+enter=unbind
