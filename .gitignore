@@ -3,7 +3,16 @@ nohup.out
 *.tmp
 *.swp
 hypr/monitors.conf
+hypr/monitors.laptop.conf
+hypr/monitors.pc.conf
 CLAUDE.md
+AGENTS.md
+.bashrc
 bashrc
 waybar/config
 Thunar/accels.scm
+.env
+*.pem
+*.key
+id_rsa
+id_ed25519
