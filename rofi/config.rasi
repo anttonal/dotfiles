@@ -1,11 +1,14 @@
 configuration {
-    show-icons: true;
-    prompt: "Run:";
+    display-drun: "Search:";
+    display-window: "Windows:";
+    drun-use-desktop-cache: true;
     terminal: "ghostty";
     location: 0;
-    matching: "fuzzy";
     case-sensitive: false;
-    display-drun: "";
+    modi: "drun";
+    show-icons: false; /* shit doesn't support icons */
+    icon-theme: "Papirus";
+    sorting-method: "fzf";
 }
 
 * {
@@ -15,7 +18,7 @@ configuration {
     border-col:  #bd93f9;
     input-border: #6272a4;
     selected:    #44475a;
-    font:        "JetBrainsMono Nerd Font 15";
+    font:        "JetBrainsMono Nerd Font Medium 12";
 }
 
 window {
