@@ -79,6 +79,16 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+vim.filetype.add({
+  extension = {
+    gotmpl = 'gotmpl',
+    tmpl = 'gotmpl',
+  },
+  filename = {
+    ['go.work'] = 'gowork',
+  },
+})
+
 local function escape_rg_pattern(text) return text:gsub('([%(%)%.%%%+%-%*%?%[%]%^%$%{%}%|])', '\\%1') end
 
 local function current_note_id()
@@ -642,7 +652,7 @@ require('lazy').setup({
         html = {},
         marksman = {},
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         pyright = {},
         -- rust_analyzer = {},
         --
@@ -744,6 +754,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        go = { 'goimports', 'gofmt' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -919,7 +930,7 @@ require('lazy').setup({
     branch = 'main',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
-      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'gomod', 'gosum', 'gowork' }
       require('nvim-treesitter').install(parsers)
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
