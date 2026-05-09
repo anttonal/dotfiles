@@ -278,7 +278,9 @@ local fold_augroup = vim.api.nvim_create_augroup('remember-folds', { clear = tru
 vim.api.nvim_create_autocmd('BufWinLeave', {
   group = fold_augroup,
   pattern = '*',
-  command = 'mkview',
+  callback = function()
+    if vim.fn.expand '%' ~= '' and vim.bo.buftype == '' then pcall(vim.cmd, 'mkview') end
+  end,
 })
 vim.api.nvim_create_autocmd('BufWinEnter', {
   group = fold_augroup,
