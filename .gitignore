@@ -1,4 +1,3 @@
-hypr/hyprpaper.conf
 nohup.out
 *.log
 *.tmp
@@ -12,5 +11,3 @@ waybar/config
 *.key
 id_rsa
 id_ed25519
-hypr/monitors.conf
-hypr/workspaces.conf
