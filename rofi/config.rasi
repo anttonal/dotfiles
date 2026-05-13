@@ -2,6 +2,7 @@ configuration {
     display-drun: "Search:";
     display-window: "Windows:";
     drun-use-desktop-cache: true;
+    drun-reload-desktop-cache: true;
     drun-match-fields: "name,generic,exec,categories,keywords";
     terminal: "ghostty";
     location: 0;
