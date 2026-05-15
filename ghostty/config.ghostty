@@ -12,8 +12,10 @@ mouse-hide-while-typing    = true
 cursor-style-blink         = false
 
 # Behavior
-confirm-close-surface      = false
-clipboard-paste-protection = false
+confirm-close-surface            = false
+clipboard-paste-protection       = false
+window-inherit-working-directory = true
+gtk-single-instance              = true
 
 # Keybinds
 keybind                    = ctrl+enter=unbind
