@@ -24,7 +24,9 @@
     "format-wifi": "󰖩",
     "format-ethernet": "󰈀",
     "format-disconnected": "⚠ Disconnected",
-    "tooltip": true
+    "tooltip": true,
+    "tooltip-format": "{essid}",
+    "on-click": "ghostty --class=com.mitchellh.ghostty-float -e nmtui"
   },
 
   "clock": {
