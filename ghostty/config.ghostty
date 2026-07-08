@@ -1,6 +1,6 @@
 # Appearance
 font-family                = Hack Nerd Font
-font-size                  = 16
+font-size                  = 14
 
 # Shell
 shell-integration          = detect
@@ -22,6 +22,7 @@ keybind                    = ctrl+enter=unbind
 keybind                    = shift+page_up=scroll_page_lines:-10
 keybind                    = shift+page_down=scroll_page_lines:10
 keybind                    = super+ctrl+comma=reload_config
+keybind                    = super+shift+a=select_all
 
 ## Splits
 keybind                    = super+ctrl+h=goto_split:left
