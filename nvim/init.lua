@@ -664,7 +664,6 @@ require('lazy').setup({
       ---@type table<string, vim.lsp.Config>
       local servers = {
         html = {},
-        marksman = {},
         -- clangd = {},
         gopls = {},
         pyright = {},
