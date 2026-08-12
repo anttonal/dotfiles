@@ -23,7 +23,15 @@ keybind                    = ctrl+enter=unbind
 keybind                    = shift+page_up=scroll_page_lines:-10
 keybind                    = shift+page_down=scroll_page_lines:10
 keybind                    = super+ctrl+comma=reload_config
+
+# Selections
+keybind                    = ctrl+shift+a=adjust_selection:beginning_of_line
+keybind                    = ctrl+shift+e=adjust_selection:end_of_line
 keybind                    = super+shift+a=select_all
+keybind                    = shift+left=adjust_selection:left
+keybind                    = shift+right=adjust_selection:right
+keybind                    = shift+up=adjust_selection:up
+keybind                    = shift+down=adjust_selection:down
 
 ## Splits
 keybind                    = super+ctrl+h=goto_split:left
