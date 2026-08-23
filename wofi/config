@@ -1,6 +1,10 @@
 show-icons=true
-prompt=Run:
+prompt=Search:
 location=center
 hide-scroll=true
 allow-markup=true
 term=ghostty
+insensitive=true
+matching=fuzzy
+width=360px
+lines=8
