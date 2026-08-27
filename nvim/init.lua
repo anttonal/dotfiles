@@ -142,8 +142,8 @@ local function follow_note_link()
 
   local target = resolve_note_path(note_id)
   if not target then
-    vim.notify('Note not found: ' .. note_id, vim.log.levels.WARN)
-    return
+    target = vim.g.obsidian_vault .. '/drafts/' .. note_id .. '.md'
+    vim.notify('Creating note: ' .. note_id, vim.log.levels.INFO)
   end
 
   vim.cmd.edit(vim.fn.fnameescape(target))
