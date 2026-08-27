@@ -155,7 +155,8 @@ local function follow_note_link()
 
   local target = resolve_note_path(note_id)
   if not target then
-    local dir = find_note_dir(note_id) or (vim.g.obsidian_vault .. '/drafts')
+    local current_id = current_note_id()
+    local dir = (current_id and find_note_dir(current_id)) or (vim.g.obsidian_vault .. '/drafts')
     target = dir .. '/' .. note_id .. '.md'
     vim.notify('Creating note: ' .. note_id, vim.log.levels.INFO)
   end
