@@ -15,7 +15,8 @@ window#waybar {
 #cpu,
 #memory,
 #clock,
-#pulseaudio {
+#pulseaudio,
+#bluetooth {
   padding: 0 10px; /* Keep horizontal padding as before */
   background-color: #333;
   border: 1px solid #444;

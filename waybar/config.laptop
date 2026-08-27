@@ -40,7 +40,8 @@
     "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ifname}: {ipaddr}/{cidr}\nfreq {frequency} GHz\n󰇚 {bandwidthDownBits}  󰕒 {bandwidthUpBits}",
     "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}\ngw {gwaddr}\n󰇚 {bandwidthDownBits}  󰕒 {bandwidthUpBits}",
     "tooltip-format-disconnected": "Disconnected",
-    "on-click": "ghostty --class=com.mitchellh.ghostty-float -e nmtui"
+    "on-click": "ghostty --class=com.mitchellh.ghostty-float -e nmtui",
+    "on-click-right": "ghostty --class=com.mitchellh.ghostty-float -e sh -c 'nmcli device show; echo; nmcli connection show; read -p \"[enter to close] \"'"
   },
 
   "clock": {
