@@ -1,0 +1,59 @@
+# Zathura configuration file
+# See man `man zathurarc'
+
+# Open document in fit-width mode by default
+set adjust-open "best-fit"
+
+# One page per row by default
+set pages-per-row 1
+
+#stop at page boundaries
+set scroll-page-aware "true"
+set smooth-scroll "true"
+set scroll-full-overlap 0.01
+set scroll-step 50
+
+#zoom settings
+set zoom-min 10
+set guioptions ""
+
+# Dracula theme (matches ghostty)
+
+set font "JetBrains Mono 15"
+set default-bg "#282a36"
+set default-fg "#f8f8f2"
+
+set statusbar-fg "#f8f8f2"
+set statusbar-bg "#44475a"
+
+set inputbar-bg "#282a36"
+set inputbar-fg "#f8f8f2"
+
+set notification-error-bg "#ff5555"
+set notification-error-fg "#282a36"
+
+set notification-warning-bg "#ffb86c"
+set notification-warning-fg "#282a36"
+
+set highlight-color "#f1fa8c"
+set highlight-active-color "#bd93f9"
+
+set completion-highlight-fg "#282a36"
+set completion-highlight-bg "#bd93f9"
+
+set completion-bg "#44475a"
+set completion-fg "#f8f8f2"
+
+set notification-bg "#50fa7b"
+set notification-fg "#282a36"
+
+set recolor "true"
+set recolor-lightcolor "#282a36"
+set recolor-darkcolor "#f8f8f2"
+set recolor-reverse-video "true"
+set recolor-keephue "true"
+
+set render-loading "false"
+unmap f
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
