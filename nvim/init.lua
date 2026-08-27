@@ -148,6 +148,7 @@ local function follow_note_link()
   end
 
   local note_id = inner:match '^[^|#]+'
+  if note_id then note_id = note_id:gsub('%.md$', '') end
   if not note_id or note_id == '' then
     vim.notify('Invalid wiki link', vim.log.levels.WARN)
     return
