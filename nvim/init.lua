@@ -127,6 +127,19 @@ local function resolve_note_path(note_id)
   return vim.fn.fnamemodify(exact[1], ':p')
 end
 
+local function find_note_dir(note_id)
+  local matches = vim.fn.systemlist {
+    'find',
+    vim.g.obsidian_vault,
+    '-type',
+    'd',
+    '-name',
+    note_id,
+  }
+  if #matches == 0 then return nil end
+  return matches[1]
+end
+
 local function follow_note_link()
   local inner = find_wikilink_at_cursor()
   if not inner then
@@ -142,7 +155,8 @@ local function follow_note_link()
 
   local target = resolve_note_path(note_id)
   if not target then
-    target = vim.g.obsidian_vault .. '/drafts/' .. note_id .. '.md'
+    local dir = find_note_dir(note_id) or (vim.g.obsidian_vault .. '/drafts')
+    target = dir .. '/' .. note_id .. '.md'
     vim.notify('Creating note: ' .. note_id, vim.log.levels.INFO)
   end
 
