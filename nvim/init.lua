@@ -229,6 +229,14 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>e', function() Snacks.explorer() end, { desc = 'Explorer' })
 vim.keymap.set('n', '\\', function() Snacks.explorer.reveal() end, { desc = 'Explorer reveal' })
 vim.keymap.set('n', 'gf', follow_note_link, { desc = 'Follow file or wiki link' })
+vim.keymap.set('n', '<leader>yp', function()
+  vim.fn.setreg('+', vim.fn.expand '%')
+  vim.notify('Yanked relative path')
+end, { desc = '[Y]ank relative [P]ath' })
+vim.keymap.set('n', '<leader>yP', function()
+  vim.fn.setreg('+', vim.fn.expand '%:p')
+  vim.notify('Yanked full path')
+end, { desc = '[Y]ank full [P]ath' })
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {
