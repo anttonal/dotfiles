@@ -10,7 +10,7 @@ fi
 if [ -f "$state_file" ]; then
   text=$(date +'%a %d %b %H:%M')
 else
-  text=$(date +'%d.%m.%y %H:%M')
+  text=$(date +'%d.%m %H:%M')
 fi
 
 hel_fi=$(TZ=Europe/Helsinki date +'%d.%m.%Y %H:%M')
