@@ -34,6 +34,7 @@
     "format-wifi": "󰖩",
     "format-ethernet": "󰈀",
     "format-disconnected": "⚠ Disconnected",
+    "format-alt": "{ifname} {ipaddr}/{cidr}",
     "interval": 2,
     "tooltip": true,
     "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}\n󰇚 {bandwidthDownBits}  󰕒 {bandwidthUpBits}",
@@ -41,7 +42,7 @@
     "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}\ngw {gwaddr}\n󰇚 {bandwidthDownBits}  󰕒 {bandwidthUpBits}",
     "tooltip-format-disconnected": "Disconnected",
     "on-click": "ghostty --class=com.mitchellh.ghostty-float -e nmtui",
-    "on-click-right": "ghostty --class=com.mitchellh.ghostty-float -e sh -c 'nmcli device show; echo; nmcli connection show; read -p \"[enter to close] \"'"
+    "on-click-right": "toggle"
   },
 
   "clock": {
