@@ -2,7 +2,7 @@
   "layer": "top",
   "position": "top",
   "modules-left": ["sway/workspaces"],
-  "modules-center": ["clock"],
+  "modules-center": ["custom/clock"],
   "modules-right": ["bluetooth", "pulseaudio", "network", "battery", "cpu", "memory"],
 
   "battery": {
@@ -45,11 +45,13 @@
     "on-click": "ghostty --class=com.mitchellh.ghostty-float -e nmtui"
   },
 
-  "clock": {
-    "format": "{:%d.%m.%y %H:%M}",
-    "format-alt": "{:%a %d %b %H:%M}",
-    "format-alt-click": "click-left",
-    "tooltip": false
+  "custom/clock": {
+    "exec": "/home/ant/dotfiles/waybar/scripts/clock.sh",
+    "interval": 30,
+    "return-type": "json",
+    "tooltip": true,
+    "on-click": "/home/ant/dotfiles/waybar/scripts/clock.sh toggle && pkill -RTMIN+8 waybar",
+    "signal": 8
   },
 
   "cpu": {

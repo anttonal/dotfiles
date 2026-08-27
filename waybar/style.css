@@ -14,7 +14,7 @@ window#waybar {
 #battery,
 #cpu,
 #memory,
-#clock,
+#custom-clock,
 #pulseaudio,
 #bluetooth {
   padding: 0 10px; /* Keep horizontal padding as before */
