@@ -692,6 +692,7 @@ require('lazy').setup({
         gopls = {},
         pyright = {},
         -- rust_analyzer = {},
+        hls = {}, -- provided by project nix devShell, not mason
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
@@ -746,6 +747,7 @@ require('lazy').setup({
       --
       -- You can press `g?` for help in this menu.
       local ensure_installed = vim.tbl_keys(servers or {})
+      ensure_installed = vim.tbl_filter(function(name) return name ~= 'hls' end, ensure_installed)
       vim.list_extend(ensure_installed, {
         -- You can add other tools here that you want Mason to install
       })
