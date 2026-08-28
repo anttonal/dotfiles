@@ -13,11 +13,12 @@ else
   text=$(date +'%d.%m %H:%M')
 fi
 
+week=$(date +'%V')
 hel_fi=$(TZ=Europe/Helsinki date +'%d.%m.%Y %H:%M')
 hel_us=$(TZ=Europe/Helsinki date +'%m/%d/%Y %I:%M %p')
 pdx_fi=$(TZ=America/Los_Angeles date +'%d.%m.%Y %H:%M')
 pdx_us=$(TZ=America/Los_Angeles date +'%m/%d/%Y %I:%M %p')
 
-tooltip=$(printf 'Helsinki:  %s   |   %s\nPortland:  %s   |   %s' "$hel_fi" "$hel_us" "$pdx_fi" "$pdx_us")
+tooltip=$(printf 'Week %s\nHelsinki:  %s   |   %s\nPortland:  %s   |   %s' "$week" "$hel_fi" "$hel_us" "$pdx_fi" "$pdx_us")
 
 jq -nc --arg text "$text" --arg tooltip "$tooltip" '{text:$text, tooltip:$tooltip}'
