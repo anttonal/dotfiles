@@ -65,6 +65,10 @@ vim.o.splitbelow = true
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+-- Make files readable
+vim.opt.breakindent = true
+vim.opt.linebreak = true
+
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
 
@@ -233,11 +237,11 @@ vim.keymap.set('n', '\\', function() Snacks.explorer.reveal() end, { desc = 'Exp
 vim.keymap.set('n', 'gf', follow_note_link, { desc = 'Follow file or wiki link' })
 vim.keymap.set('n', '<leader>yp', function()
   vim.fn.setreg('+', vim.fn.expand '%')
-  vim.notify('Yanked relative path')
+  vim.notify 'Yanked relative path'
 end, { desc = '[Y]ank relative [P]ath' })
 vim.keymap.set('n', '<leader>yP', function()
   vim.fn.setreg('+', vim.fn.expand '%:p')
-  vim.notify('Yanked full path')
+  vim.notify 'Yanked full path'
 end, { desc = '[Y]ank full [P]ath' })
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
@@ -310,6 +314,18 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   group = fold_augroup,
   pattern = '*',
   callback = function() pcall(vim.cmd, 'loadview') end,
+})
+
+-- Haskell layout rule breaks on tabs; force spaces
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'haskell',
+  group = vim.api.nvim_create_augroup('haskell-indent', { clear = true }),
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
+  end,
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
