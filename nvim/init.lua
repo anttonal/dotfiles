@@ -752,7 +752,7 @@ require('lazy').setup({
       local servers = {
         html = {},
         -- clangd = {},
-        gopls = {},
+        gopls = {}, -- provided by project nix devShell, not mason
         pyright = {},
         -- rust_analyzer = {},
         hls = {}, -- provided by project nix devShell, not mason
@@ -810,7 +810,7 @@ require('lazy').setup({
       --
       -- You can press `g?` for help in this menu.
       local ensure_installed = vim.tbl_keys(servers or {})
-      ensure_installed = vim.tbl_filter(function(name) return name ~= 'hls' end, ensure_installed)
+      ensure_installed = vim.tbl_filter(function(name) return name ~= 'hls' and name ~= 'gopls' end, ensure_installed)
       vim.list_extend(ensure_installed, {
         'prettierd', -- formatter for html/css/js/ts/json/yaml/md
       })
