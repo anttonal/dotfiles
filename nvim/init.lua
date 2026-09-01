@@ -812,7 +812,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       ensure_installed = vim.tbl_filter(function(name) return name ~= 'hls' end, ensure_installed)
       vim.list_extend(ensure_installed, {
-        -- You can add other tools here that you want Mason to install
+        'prettierd', -- formatter for html/css/js/ts/json/yaml/md
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -857,11 +857,14 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'goimports' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        html = { 'prettierd' },
+        css = { 'prettierd' },
+        scss = { 'prettierd' },
+        javascript = { 'prettierd' },
+        typescript = { 'prettierd' },
+        json = { 'prettierd' },
+        yaml = { 'prettierd' },
+        markdown = { 'prettierd' },
       },
     },
   },
