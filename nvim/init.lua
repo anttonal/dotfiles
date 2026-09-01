@@ -363,6 +363,18 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- Web files: 2-space indent convention
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'html', 'css', 'scss', 'javascript', 'typescript', 'json', 'yaml' },
+  group = vim.api.nvim_create_augroup('web-indent', { clear = true }),
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -1060,6 +1072,7 @@ require('lazy').setup({
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autotag',
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
