@@ -144,9 +144,44 @@ local function find_note_dir(note_id)
   return matches[1]
 end
 
+local function slugify_heading(text)
+  text = text:lower()
+  text = text:gsub('[^%w%s%-]', '')
+  text = text:gsub('%s+', '-')
+  return text
+end
+
+local function find_md_anchor_at_cursor()
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+  local start_col, end_col, anchor = line:find '%[[^%]]+%]%(#([^%)]+)%)'
+
+  while start_col do
+    if col >= start_col and col <= end_col then return anchor end
+    start_col, end_col, anchor = line:find('%[[^%]]+%]%(#([^%)]+)%)', end_col + 1)
+  end
+end
+
+local function jump_to_heading(anchor)
+  local total = vim.api.nvim_buf_line_count(0)
+  for lnum = 1, total do
+    local heading = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]:match '^#+%s+(.*)'
+    if heading and slugify_heading(heading) == anchor then
+      vim.api.nvim_win_set_cursor(0, { lnum, 0 })
+      return true
+    end
+  end
+  return false
+end
+
 local function follow_note_link()
   local inner = find_wikilink_at_cursor()
   if not inner then
+    local anchor = find_md_anchor_at_cursor()
+    if anchor then
+      if not jump_to_heading(anchor) then vim.notify('Heading not found: #' .. anchor, vim.log.levels.WARN) end
+      return
+    end
     vim.cmd.normal { 'gf', bang = true }
     return
   end
