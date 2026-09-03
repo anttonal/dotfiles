@@ -3,8 +3,7 @@ nohup.out
 *.tmp
 *.swp
 CLAUDE.md
-.bashrc
-*bashrc
+.bashrc.local
 waybar/config
 .env
 *.pem

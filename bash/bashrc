@@ -1,0 +1,350 @@
+# ~/.bashrc -- real file, out-of-store symlinked in by home.nix
+# (config.lib.file.mkOutOfStoreSymlink), so edits here apply live, no rebuild.
+#
+# Adapted from github.com/bahamas10/dotfiles, minus bics/macOS/his identity.
+
+# Commands that should be applied only for interactive shells.
+[[ $- == *i* ]] || return
+
+# ---------------------------------------------------------------------------
+# History / shell options
+# ---------------------------------------------------------------------------
+
+HISTCONTROL=ignoredups
+HISTFILESIZE=100000
+HISTIGNORE=ls:ll:cd:exit:clear
+HISTSIZE=10000
+
+shopt -s histappend
+shopt -s extglob
+shopt -s globstar
+shopt -s checkjobs
+shopt -s cdspell # fix minor typos in cd paths
+shopt -s dirspell # same, during tab completion
+shopt -s autocd # bare directory name means cd
+
+# ---------------------------------------------------------------------------
+# Aliases
+# ---------------------------------------------------------------------------
+
+alias -- ls='ls -p --color=auto' # -p marks dirs with a trailing /
+alias -- l='ls'
+alias -- ll='ls -lha'
+alias -- la='ls -a'
+alias -- grep='grep --color=auto'
+alias -- open=xdg-open
+alias -- hl='rg --passthru' # highlight matches, keep every line
+
+# typo insurance
+alias -- gerp='grep'
+alias -- suod='sudo'
+alias -- chomd='chmod'
+
+# local
+alias -- ff=fastfetch
+alias -- t='date +%H:%M'
+alias -- b='cat /sys/class/power_supply/BAT0/capacity'
+alias -- externalip='curl -sS https://ifconfig.me && echo'
+
+# git
+alias -- ga='git add . --all'
+alias -- gb='git branch'
+alias -- gc='git clone'
+alias -- gci='git commit -a'
+alias -- gco='git checkout'
+alias -- gd='git diff '\'':!*lock'\'''
+alias -- gdf='git diff'
+alias -- gi='git init'
+alias -- gl='git log'
+alias -- gp='git push origin HEAD'
+alias -- gr='git rev-parse --show-toplevel'
+alias -- gs='git status'
+alias -- gt='git tag'
+alias -- gu='git pull'
+alias -- nb='git checkout -b "$USER-$(date +%s)"' # throwaway branch
+
+# bash completion, best-effort -- stale nix store path after a package bump
+# just means completion silently doesn't load, not a shell error.
+if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
+  . "/nix/store/8rx50z8s7d55j2pyh46fz1d58k1fbrjr-bash-completion-2.17.0/etc/profile.d/bash_completion.sh" 2>/dev/null
+fi
+
+# ---------------------------------------------------------------------------
+# Environment
+# ---------------------------------------------------------------------------
+
+# TZ deliberately unset -- system time.timeZone (Europe/Helsinki) applies.
+
+export GREP_COLOR='1;36'
+export LS_COLORS='di=01;34:ln=01;36:so=31;44:pi=30;44:ex=01;32:bd=44:cd=37;44:su=37;41:sg=30;43:tw=30;42:ow=30;43'
+
+# Colors in less/man. Values need $'' so the ESC is a real byte.
+export LESS_TERMCAP_mb=$'\e[1;31m'
+export LESS_TERMCAP_md=$'\e[1;31m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[1;33;44m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[4;1;32m'
+export LESS_TERMCAP_mr=$'\e[7m'
+export LESS_TERMCAP_mh=$'\e[2m'
+export LESS_TERMCAP_ZN=$'\e[74m'
+export LESS_TERMCAP_ZV=$'\e[75m'
+export LESS_TERMCAP_ZO=$'\e[73m'
+export LESS_TERMCAP_ZW=$'\e[75m'
+
+# ---------------------------------------------------------------------------
+# Prompt
+# ---------------------------------------------------------------------------
+
+# Escape sequences cached in an array so drawing the prompt never forks tput.
+# Indices 0-255 are the 256-color palette, 256 is reset, 257 is bold.
+COLOR256=()
+COLOR256[0]=$'\e[31m'
+COLOR256[256]=$'\e[0m'
+COLOR256[257]=$'\e[1m'
+
+PROMPT_COLORS=()
+
+# Re-theme the prompt: themes are 0-29, each one a different slice of the
+# color cube. Try another live with e.g. `set_prompt_colors 12`.
+set_prompt_colors() {
+	local h=${1:-0}
+	local color=
+	local i=0
+	local j=0
+	for i in {22..231}; do
+		((i % 30 == h)) || continue
+
+		color=${COLOR256[i]}
+		if [[ -z $color ]]; then
+			color=$'\e[38;5;'${i}m
+			COLOR256[i]=$color
+		fi
+
+		PROMPT_COLORS[j]=$color
+		((j++))
+	done
+
+	# root gets a red username
+	_ps1_ucolor=${PROMPT_COLORS[0]}
+	((UID == 0)) && _ps1_ucolor=${COLOR256[0]}
+
+	return 0
+}
+set_prompt_colors 24
+
+# Segments that vary per prompt are computed here and interpolated into PS1 as
+# plain text. They cannot carry their own \[ \] markers: bash decodes those
+# escapes in PS1 *before* expanding variables, so a \[ arriving from an
+# expansion would print literally and break line-wrap width accounting.
+_prompt_command() {
+	local ret=$?
+	local branch
+
+	if ((ret != 0)); then
+		_ps1_ret="($ret) "
+	else
+		_ps1_ret=''
+	fi
+
+	branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+	if [[ -n $branch ]]; then
+		_ps1_git="(git:$branch) "
+	else
+		_ps1_git=''
+	fi
+
+	# terminal/tab title: [ssh] user@host:cwd
+	local ssh=
+	[[ -n $SSH_CLIENT ]] && ssh='[ssh] '
+	printf '\033]0;%s%s@%s:%s\007' \
+	    "$ssh" "$USER" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"
+
+	return 0
+}
+PROMPT_COMMAND=_prompt_command
+
+# [(exit code)] <user> - <hostname> <cwd> [(git:branch)] <$|#>
+PS1='\[${COLOR256[0]}\]${_ps1_ret}\[${COLOR256[256]}\]'
+PS1+='\[${_ps1_ucolor}${COLOR256[257]}\]\u\[${COLOR256[256]}\] - '
+PS1+='\[${PROMPT_COLORS[3]}\]\h '
+PS1+='\[${PROMPT_COLORS[5]}\]\w '
+PS1+='\[${PROMPT_COLORS[2]}\]${_ps1_git}'
+PS1+='\[${PROMPT_COLORS[0]}\]\$\[${COLOR256[256]}\] '
+
+PROMPT_DIRTRIM=6
+
+# ---------------------------------------------------------------------------
+# Git helpers
+#
+# These are functions rather than aliases because the main branch is sometimes
+# `main` and sometimes `master`.
+# ---------------------------------------------------------------------------
+
+# print the name of the repo's main branch
+gmb() {
+	local main b
+
+	main=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null)
+	main=${main#origin/}
+
+	# origin/HEAD is only populated by `git clone`; repos created locally and
+	# pushed later never get it. Fall back to whichever conventional name
+	# actually exists, and tell the user how to make this deterministic.
+	if [[ -z $main ]]; then
+		for b in main master trunk; do
+			if git show-ref --verify --quiet "refs/heads/$b"; then
+				main=$b
+				break
+			fi
+		done
+	fi
+
+	if [[ -z $main ]]; then
+		echo 'gmb: no main branch found (try: git remote set-head origin -a)' >&2
+		return 1
+	fi
+
+	echo "$main"
+}
+
+# diff from inside a branch back to the main branch
+gbd() {
+	local mb
+	mb=$(gmb) || return 1
+	git diff "$mb..HEAD"
+}
+
+# check out the main branch and update it
+gcm() {
+	local mb
+	mb=$(gmb) || return 1
+	git checkout "$mb" && git pull
+}
+
+# merge the main branch into the current branch
+gmm() {
+	local mb
+	mb=$(gmb) || return 1
+	git merge "$mb"
+}
+
+# open the current repo path in the browser
+gho() {
+	local file=$1
+	local remote=${2:-origin}
+	local gr branch url path a len user repo
+
+	gr=$(git rev-parse --show-toplevel 2>/dev/null)
+	branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+	url=$(git config --get "remote.$remote.url")
+
+	if [[ -z $gr || -z $branch || -z $url ]]; then
+		echo "gho: not a git repo, or no remote '$remote'" >&2
+		return 1
+	fi
+
+	path=${PWD/#$gr/}
+	[[ -n $file ]] && path+=/$file
+
+	# works for both git@host:user/repo.git and https://host/user/repo.git
+	IFS=:/ read -r -a a <<< "$url"
+	len=${#a[@]}
+	user=${a[len-2]}
+	repo=${a[len-1]%.git}
+
+	url="https://github.com/$user/$repo/tree/$branch$path"
+	echo "$url"
+	xdg-open "$url" >/dev/null 2>&1
+}
+
+# ---------------------------------------------------------------------------
+# Utilities
+# ---------------------------------------------------------------------------
+
+# copy stdin to the wayland clipboard
+copy() {
+	wl-copy 2>/dev/null || xsel -ib 2>/dev/null || {
+		echo 'copy: no clipboard tool available' >&2
+		return 1
+	}
+}
+
+# a colorized `diff -u`
+colordiff() {
+	local red green cyan reset
+	red=$(tput setaf 1 2>/dev/null)
+	green=$(tput setaf 2 2>/dev/null)
+	cyan=$(tput setaf 6 2>/dev/null)
+	reset=$(tput sgr0 2>/dev/null)
+
+	diff -u "$@" | awk "
+	/^\-/ {
+		printf(\"%s\", \"$red\");
+	}
+	/^\+/ {
+		printf(\"%s\", \"$green\");
+	}
+	/^@/ {
+		printf(\"%s\", \"$cyan\");
+	}
+
+	{
+		print \$0 \"$reset\";
+	}"
+
+	return "${PIPESTATUS[0]}"
+}
+
+# print all 256 colors with their index (use to pick a prompt theme)
+colors() {
+	local i
+	for i in {0..255}; do
+		printf "\x1b[38;5;${i}mcolor %d\n" "$i"
+	done
+	printf '\e[0m'
+}
+
+# epoch seconds -> human readable (current time with no args)
+epoch() {
+	local num=${1:--1}
+	printf '%(%B %d, %Y %-I:%M:%S %p %Z)T\n' "$num"
+}
+
+# from stdin, print lines longer than N columns (default 80) with line numbers
+over() {
+	awk -v c="${1:-80}" 'length($0) > c {
+		printf("%4d %s\n", NR, $0);
+	}'
+}
+
+# follow redirects to expand a shortened url
+untiny() {
+	local location=$1
+	local last_location=''
+
+	while [[ -n $location ]]; do
+		[[ -n $last_location ]] && echo " -> $last_location"
+		last_location=$location
+		read -r _ location < \
+		    <(curl -sI "$location" | grep 'Location: ' | tr -d '[:cntrl:]')
+	done
+	echo "$last_location"
+}
+
+# ---------------------------------------------------------------------------
+# Local overrides (untracked, optional -- private aliases/secrets go here,
+# never in this file since ~/dotfiles is a public repo)
+# ---------------------------------------------------------------------------
+
+# shellcheck source=/dev/null
+[[ -f ~/.bashrc.local ]] && . ~/.bashrc.local
+
+# direnv hook -- generic `direnv` lookup (programs.direnv puts it on PATH),
+# not a baked-in nix store path, so it doesn't go stale across upgrades.
+if command -v direnv &>/dev/null; then
+	eval "$(direnv hook bash)"
+fi
+
+true
