@@ -759,6 +759,11 @@ require('lazy').setup({
         },
         emmet_language_server = {
           filetypes = { 'html', 'css', 'javascriptreact', 'typescriptreact' },
+          init_options = {
+            preferences = {
+              ['output.selfClosingStyle'] = 'html',
+            },
+          },
         },
         -- clangd = {},
         gopls = {}, -- provided by project nix devShell, not mason
