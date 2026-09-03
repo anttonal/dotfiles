@@ -750,7 +750,16 @@ require('lazy').setup({
       --  See `:help lsp-config` for information about keys and how to configure
       ---@type table<string, vim.lsp.Config>
       local servers = {
-        html = {},
+        html = {
+          settings = {
+            html = {
+              validate = true,
+            },
+          },
+        },
+        emmet_language_server = {
+          filetypes = { 'html', 'css', 'javascriptreact', 'typescriptreact' },
+        },
         -- clangd = {},
         gopls = {}, -- provided by project nix devShell, not mason
         pyright = {},
@@ -791,13 +800,6 @@ require('lazy').setup({
           end,
           settings = {
             Lua = {},
-            html = {
-              settings = {
-                html = {
-                  validate = true,
-                },
-              },
-            },
           },
         },
       }
