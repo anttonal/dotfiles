@@ -1,7 +1,7 @@
 {
   "layer": "top",
   "position": "top",
-  "modules-left": ["sway/workspaces"],
+  "modules-left": ["hyprland/workspaces"],
   "modules-center": ["custom/clock"],
   "modules-right": ["bluetooth", "pulseaudio", "network", "battery", "cpu", "memory"],
 
@@ -78,7 +78,8 @@
   "on-scroll-down": "pamixer -d 2"
   },
 
-  "sway/workspaces": {
+  "hyprland/workspaces": {
+    "on-click": "activate",
     "tooltip": false
   }
 }
